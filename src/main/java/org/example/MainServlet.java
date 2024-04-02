@@ -1,18 +1,28 @@
 package org.example;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/main")
 public class MainServlet extends HttpServlet {
 
-    private final PostController controller;
+    private PostController controller;
 
-    public MainServlet(PostController controller) {
-        this.controller = controller;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        WebApplicationContext context = new AnnotationConfigWebApplicationContext(AnnotationConfig.class);
+        controller = context.getBean(PostController.class);
     }
+
+
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
