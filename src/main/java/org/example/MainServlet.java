@@ -16,11 +16,15 @@ public class MainServlet extends HttpServlet {
     private PostController controller;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        WebApplicationContext context = new AnnotationConfigWebApplicationContext(AnnotationConfig.class);
-        controller = context.getBean(PostController.class);
-    }
+   public void init(ServletConfig config) throws ServletException {
+       
+    super.init(config);
+    AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+    context.scan("org.example");
+    context.refresh();
+    controller = context.getBean(PostController.class);
+       
+}
 
 
 
